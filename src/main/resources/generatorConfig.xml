@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <context id="MysqlContext" targetRuntime="MyBatis3" defaultModelType="flat">
+
+        <!-- beginningDelimiter 和 endingDelimiter，定界符（分隔符），指明用于标记数据库关键字的符号，默认为为双引号 (")；
+              在 oracle 中是双引号 (")，在 MySQL 中需配置为反引号 (`)  -->
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <!-- 生成的 Java 文件的编码   -->
+        <property name="JavaFileEncoding" value="UTF-8"/>
+
+        <!-- 自动生成lombok注解配置和根据数据库注释为实体添加注释, 需要自己编译文件才可以实现,具体见https://www.jianshu.com/p/58ee7e09fc3f -->
+        <plugin type="club.sdll.codegenerator.config.LombokPlugin" >
+            <property name="hasLombok" value="true"/>
+        </plugin>
+
+        <commentGenerator>
+            <!--  不生成所有注释，默认为 false  -->
+            <property name="suppressAllComments" value="true"/>
+            <!--  生成的注释中不包含时间信息，默认为 false -->
+            <property name="suppressDate" value="true"/>
+
+            <!-- 是否添加数据库表中字段的注释，默认为 false  -->
+            <property name="addRemarkComments" value="true"/>
+
+            <property name="author" value="草薙"/>
+        </commentGenerator>
+        <!--    引用自定义的注释生成器 -->
+        <!-- 自定义注释生成器 -->
+    <!--    <commentGenerator type="club.sdll.codegenerator.config.CustomCommentGenerator">
+            <property name="author" value="草薙"/>
+            <property name="dateFormat" value="yyyy/MM/dd"/>
+        </commentGenerator>-->
+
+
+
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:33061/tuya_ipc?useSSL=false"
+                        userId="root"
+                        password="root">
+            <!-- 设置 useInformationSchema 属性为 true -->
+            <property name="useInformationSchema" value="true" />
+        </jdbcConnection>
+
+        <javaModelGenerator targetPackage="com.tuya.sagittarius.core.entity" targetProject="src/main/java">
+            <property name="trimStrings" value="true"/>
+            <!-- 建立modal对象是否不可改变 即生成的modal对象不会有setter方法，只有构造方法 -->
+            <property name="immutable" value="false"/>
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="conf.mybatis.ipc" targetProject="src/main/resources"/>
+
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.tuya.sagittarius.core.mapper.ipc"
+                             targetProject="src/main/java"/>
+
+        <!-- 配置需要生成代码的数据库表 -->
+<!--        domainObjectName="StorageBucketRuleDO"-->
+        <table tableName="storage_bucket_rule" domainObjectName="StorageBucketRule"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"/>
+    </context>
+</generatorConfiguration>
